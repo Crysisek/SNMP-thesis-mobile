@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SNMP-thesis-mobile</string>
+    <string name="url_label">Server URL</string>
+    <string name="url_help">e.g. https://example.com</string>
+    <string name="username_label">Username</string>
+    <string name="username_help">e.g. f473464b–1a05–40e0–b542–69509f89e15c</string>
+    <string name="password_label">Password</string>
+    <string name="password_help">*****</string>
+    <string name="login_button">Login</string>
+    <string name="dialog_title">Save configuration</string>
+    <string name="dialog_description">Do you want to save URL, username and password to autocomplete login fields next
+        time you open the application?</string>
+    <string name="dialog_confirm_button">Save</string>
+    <string name="dialog_dismiss_button">Skip</string>
+</resources>
