@@ -21,14 +21,6 @@ data class ClientPagedResponse(
         @SerialName("role")
         val role: String,
         @SerialName("statusList")
-        val newestStatuses: List<StatusResponse>,
-    ) {
-        @Serializable
-        data class StatusResponse(
-            @SerialName("receivingTime")
-            val receivingTime: String,
-            @SerialName("nameStatusPair")
-            val nameStatusPair: Map<String, String>,
-        )
-    }
+        val latestStatuses: List<StatusResponse>,
+    )
 }

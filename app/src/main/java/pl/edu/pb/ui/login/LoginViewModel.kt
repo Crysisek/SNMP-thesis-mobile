@@ -1,14 +1,15 @@
 package pl.edu.pb.ui.login
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import pl.edu.pb.common.di.ScopeIO
+import pl.edu.pb.common.di.DispatcherIO
 import pl.edu.pb.common.navigation.NavigationCommand
 import pl.edu.pb.common.navigation.NavigationDestination
 import pl.edu.pb.common.navigation.NavigationManager
@@ -40,7 +41,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    @ScopeIO private val scopeIO: CoroutineScope,
+    @DispatcherIO private val dispatcherIO: CoroutineDispatcher,
     private val navigationManager: NavigationManager,
     private val dynamicUrlInterceptor: DynamicUrlInterceptor,
     private val checkServerUpUseCase: CheckServerUpUseCase,
@@ -58,7 +59,7 @@ class LoginViewModel @Inject constructor(
     private lateinit var savedCredentials: List<String>
 
     init {
-        scopeIO.launch {
+        viewModelScope.launch(dispatcherIO) {
             getCredentialsUseCase(keys)
                 .onSuccess {
                     listOf(
@@ -79,20 +80,20 @@ class LoginViewModel @Inject constructor(
 
     override fun mapIntents(intent: LoginIntent): Flow<PartialState> = when (intent) {
         is UriChanged -> updateUri(intent.uri)
-        is CheckUriCorrectness -> checkUriCorrectness()
+        CheckUriCorrectness -> checkUriCorrectness()
         is UsernameChanged -> updateUsername(intent.username)
         is PasswordChanged -> updatePassword(intent.password)
-        is LoginClicked -> onLoginClick()
-        is DialogConfirmClicked -> onConfirmDialogClick()
-        is DialogDismissClicked -> navigateToHomeScreen()
+        LoginClicked -> onLoginClick()
+        DialogConfirmClicked -> onConfirmDialogClick()
+        DialogDismissClicked -> navigateToHomeScreen()
     }
 
     override fun reduceUiState(previousState: LoginUiState, partialState: PartialState): LoginUiState = when (partialState) {
-        is Loading -> previousState.copy(
+        Loading -> previousState.copy(
             isLoading = true,
             isLoginError = false,
         )
-        is DialogShown -> previousState.copy(
+        DialogShown -> previousState.copy(
             isDialogVisible = true,
         )
         is AfterUriChanged -> previousState.copy(
@@ -100,7 +101,7 @@ class LoginViewModel @Inject constructor(
             isUriCorrect = true,
             isSuccessfullyConnected = false,
         )
-        is UriSuccessfullyConnected -> previousState.copy(
+        UriSuccessfullyConnected -> previousState.copy(
             isUriCorrect = true,
             isSuccessfullyConnected = true,
         )

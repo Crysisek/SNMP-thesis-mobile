@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,12 +39,14 @@ fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
+    val focusRequester = remember { FocusRequester() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    HandleEvents(viewModel.event, viewModel::setSnackbarVisibility, snackbarHostState)
+    HandleEvents(viewModel.event, viewModel::setSnackbarVisibility, snackbarHostState, focusRequester)
 
     LoginScreen(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
+        focusRequester = focusRequester,
         onUriChanged = rememberIntentWithParam(viewModel) {
             UriChanged(it)
         },
@@ -73,6 +76,7 @@ fun LoginRoute(
 private fun LoginScreen(
     uiState: LoginUiState,
     snackbarHostState: SnackbarHostState,
+    focusRequester: FocusRequester,
     checkUriCorrectness: () -> Unit,
     onUriChanged: (String) -> Unit,
     onUsernameChanged: (String) -> Unit,
@@ -91,6 +95,7 @@ private fun LoginScreen(
                 isDialogVisible = uiState.isDialogVisible,
                 onConfirm = onDialogConfirmClick,
                 onDismiss = onDialogDismissClick,
+                modifier = modifier,
             )
             else -> LoginContent(
                 isUriCorrect = uiState.isUriCorrect,
@@ -104,6 +109,7 @@ private fun LoginScreen(
                 onPasswordChanged = onPasswordChanged,
                 isLoginError = uiState.isLoginError,
                 onLoginClick = onLoginClick,
+                focusRequester = focusRequester,
                 modifier = modifier.padding(paddingValues),
             )
         }
@@ -116,8 +122,8 @@ private fun HandleEvents(
     events: Flow<LoginEvent>,
     setSnackbarVisibility: (Boolean) -> Unit,
     snackbarHostState: SnackbarHostState,
+    focusRequester: FocusRequester,
 ) {
-    val localFocusManager = LocalFocusManager.current
     val localKeyboardController = LocalSoftwareKeyboardController.current
 
     events.collectWithLifecycle {
@@ -132,9 +138,7 @@ private fun HandleEvents(
                 ).let { snackbarResult ->
                     when (snackbarResult) {
                         SnackbarResult.ActionPerformed -> {
-                            repeat(2) {
-                                localFocusManager.moveFocus(FocusDirection.Up)
-                            }
+                            focusRequester.requestFocus()
                         }
                         SnackbarResult.Dismissed -> {}
                     }.also { setSnackbarVisibility(false) }

@@ -7,4 +7,5 @@ data class Client(
     val createdAt: Instant,
     val latestUpdateAt: Instant,
     val condition: String,
+    val latestStatus: Status?,
 )

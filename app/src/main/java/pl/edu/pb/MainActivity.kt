@@ -13,9 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pb.common.extensions.collectWithLifecycle
+import pl.edu.pb.common.navigation.NavigationDestination
 import pl.edu.pb.common.navigation.NavigationFactory
 import pl.edu.pb.common.navigation.NavigationManager
 import pl.edu.pb.navigation.bottomnavigation.MainBottomAppBar
@@ -39,7 +42,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(
-                    topBar = { MainTopAppBar() },
+                    topBar = { MainTopAppBar(navController) },
                     bottomBar = { MainBottomAppBar(navController) },
                 ) { paddingValues ->
                     NavigationHost(
@@ -54,7 +57,11 @@ class MainActivity : ComponentActivity() {
                     .collectWithLifecycle(
                         key = navController,
                     ) {
-                        navController.navigate(it.destination, it.configuration)
+                        if (it.destination.isNotEmpty()) {
+                            navController.navigate(it.destination, it.configuration)
+                        } else {
+                            navController.navigateUp()
+                        }
                     }
             }
         }
@@ -62,12 +69,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun MainTopAppBar() {
+private fun MainTopAppBar(navController: NavController) {
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    val appBarText = if (currentRoute == NavigationDestination.ClientDetails.route) {
+        navController.currentBackStackEntry?.arguments?.getString(NavigationDestination.ClientDetails.CLIENT_ID)!!
+    } else {
+        stringResource(id = R.string.app_name)
+    }
+
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = stringResource(id = R.string.app_name),
-                fontWeight = FontWeight.Medium,
+                text = appBarText,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                ),
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

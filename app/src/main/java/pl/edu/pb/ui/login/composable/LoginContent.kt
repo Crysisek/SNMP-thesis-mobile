@@ -20,6 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -43,6 +45,7 @@ internal fun LoginContent(
     onPasswordChanged: (String) -> Unit,
     onLoginClick: () -> Unit,
     isLoginError: Boolean,
+    focusRequester: FocusRequester,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -63,6 +66,7 @@ internal fun LoginContent(
             isSuccessfullyConnected = isSuccessfullyConnected,
             modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(focusRequester)
                 .onFocusChanged {
                     if (isUriCorrect && uriTextFieldHasFocus && it.isFocused.not()) {
                         checkUriCorrectness()

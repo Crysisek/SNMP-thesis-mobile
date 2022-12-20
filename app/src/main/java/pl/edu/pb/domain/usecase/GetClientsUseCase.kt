@@ -7,15 +7,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retryWhen
 import pl.edu.pb.common.extensions.resultOf
 import pl.edu.pb.domain.model.Client
+import pl.edu.pb.domain.model.ClientListPageInfo
 import pl.edu.pb.domain.repository.HomeRepository
 import java.io.IOException
 
-fun interface GetClientsUseCase : (Int) -> Flow<Result<List<Client>>>
+fun interface GetClientsUseCase : (Int) -> Flow<Result<ClientListPageInfo>>
 
 fun getClients(
     page: Int,
     homeRepository: HomeRepository,
-): Flow<Result<List<Client>>> = homeRepository
+): Flow<Result<ClientListPageInfo>> = homeRepository
     .getClients(page)
     .map {
         resultOf {
@@ -36,4 +37,4 @@ fun getClients(
         emit(Result.failure(it)) // also catch does re-throw CancellationException
     }
 
-private const val RETRY_TIME_IN_MILLIS = 15_000L
+private const val RETRY_TIME_IN_MILLIS = 10_000L

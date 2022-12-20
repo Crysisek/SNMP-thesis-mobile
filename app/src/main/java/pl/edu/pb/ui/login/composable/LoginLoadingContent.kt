@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.edu.pb.R
+import pl.edu.pb.common.ui.composable.LoadingIndicator
 
 @Composable
 internal fun LoginLoadingContent(
@@ -23,13 +24,7 @@ internal fun LoginLoadingContent(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize(),
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier.padding(top = 100.dp)
-        )
+    LoadingIndicator(modifier = modifier) {
         if (isDialogVisible) {
             AlertDialog(
                 onDismissRequest = onDismiss,

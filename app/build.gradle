@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.datastore)
     implementation(libs.room)
+    implementation(libs.compose.ui)
     testImplementation(libs.bundles.common.test)
     androidTestImplementation(libs.test.android.core)
     androidTestImplementation(libs.test.android.hilt)

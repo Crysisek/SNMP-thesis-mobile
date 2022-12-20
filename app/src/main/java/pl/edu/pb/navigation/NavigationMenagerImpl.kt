@@ -20,4 +20,10 @@ class NavigationManagerImpl @Inject constructor(
             navigationCommandChannel.send(command)
         }
     }
+
+    override fun navigateUp() = navigate(
+        object : NavigationCommand {
+            override val destination: String = ""
+        }
+    )
 }

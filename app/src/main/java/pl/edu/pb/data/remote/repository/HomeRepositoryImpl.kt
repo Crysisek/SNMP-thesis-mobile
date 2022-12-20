@@ -8,6 +8,7 @@ import pl.edu.pb.common.di.DispatcherIO
 import pl.edu.pb.data.remote.api.ServerApi
 import pl.edu.pb.data.remote.mapper.toDomainModel
 import pl.edu.pb.domain.model.Client
+import pl.edu.pb.domain.model.ClientListPageInfo
 import pl.edu.pb.domain.repository.HomeRepository
 import javax.inject.Inject
 
@@ -16,17 +17,11 @@ class HomeRepositoryImpl @Inject constructor(
     @DispatcherIO private val dispatcherIO: CoroutineDispatcher,
 ) : HomeRepository {
 
-    override fun getClients(page: Int): Flow<List<Client>> = flow {
-        val clients = serverApi
+    override fun getClients(page: Int): Flow<ClientListPageInfo> = flow {
+        val clientListPaged = serverApi
             .getClients(page)
-            .clients
-            .filter { it.role == ROLE }
-            .map { it.toDomainModel() }
+            .toDomainModel()
 
-        emit(clients)
+        emit(clientListPaged)
     }.flowOn(dispatcherIO)
-
-    private companion object {
-        private const val ROLE = "USER"
-    }
 }

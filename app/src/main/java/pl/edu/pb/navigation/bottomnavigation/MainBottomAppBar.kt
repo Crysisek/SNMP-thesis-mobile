@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import pl.edu.pb.common.navigation.NavigationDestination
@@ -44,11 +45,11 @@ fun MainBottomAppBar(navController: NavHostController) {
                     alwaysShowLabel = false,
                     onClick = {
                         navController.navigate(bottomEntry) {
-                            restoreState = true
-                            popUpTo(navController.graph.startDestinationId) {
+                            popUpTo(NavigationDestination.Home.route) {
                                 saveState = true
                             }
                             launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     label = {

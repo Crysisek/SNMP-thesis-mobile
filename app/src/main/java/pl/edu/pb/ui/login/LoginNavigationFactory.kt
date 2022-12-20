@@ -1,5 +1,6 @@
 package pl.edu.pb.ui.login
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import pl.edu.pb.common.navigation.NavigationDestination

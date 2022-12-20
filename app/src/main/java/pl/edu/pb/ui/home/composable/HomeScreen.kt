@@ -1,6 +1,6 @@
 package pl.edu.pb.ui.home.composable
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -8,7 +8,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.Flow
 import pl.edu.pb.common.extensions.collectAsStateWithLifecycle
 import pl.edu.pb.common.extensions.collectWithLifecycle
+import pl.edu.pb.common.extensions.rememberIntent
+import pl.edu.pb.common.extensions.rememberIntentWithParam
 import pl.edu.pb.ui.home.HomeEvent
+import pl.edu.pb.ui.home.HomeIntent
+import pl.edu.pb.ui.home.HomeIntent.*
 import pl.edu.pb.ui.home.HomeUiState
 import pl.edu.pb.ui.home.HomeViewModel
 
@@ -22,18 +26,34 @@ fun HomeRoute(
 
     HomeScreen(
         uiState = uiState,
+        onGetMoreClients = rememberIntent(viewModel) {
+            GetClients
+        },
+        onClientClick = rememberIntentWithParam(viewModel) {
+            ClientClicked(it)
+        },
+        modifier = modifier.fillMaxSize(),
     )
 }
 
 @Composable
 private fun HomeScreen(
     uiState: HomeUiState,
+    onGetMoreClients: () -> Unit,
+    onClientClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when {
-        uiState.isLoading -> HomeLoadingContent()
+        uiState.isInitialLoading -> HomeLoadingContent(
+            modifier = modifier,
+        )
         else -> HomeContent(
-            clients = uiState.clients
+            isLoading = uiState.isLoading,
+            clients = uiState.clients,
+            onClientClick = onClientClick,
+            isAllClientsFetched = uiState.isAllClientsFetched,
+            onGetMoreClients = onGetMoreClients,
+            modifier = modifier,
         )
     }
 }
@@ -41,5 +61,6 @@ private fun HomeScreen(
 @Composable
 private fun HandleEvents(events: Flow<HomeEvent>) {
     events.collectWithLifecycle {
+
     }
 }
