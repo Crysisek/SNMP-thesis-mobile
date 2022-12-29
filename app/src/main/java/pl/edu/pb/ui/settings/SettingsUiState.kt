@@ -7,14 +7,15 @@ import kotlinx.parcelize.Parcelize
 @Immutable
 @Parcelize
 data class SettingsUiState(
-    val isLoading: Boolean = false,
+    val isRefreshOn: Boolean = true,
+    val refreshInterval: Float = 5f,
     val isError: Boolean = false,
 ): Parcelable {
 
     sealed class PartialState {
-        object Loading : PartialState()
+        data class RefreshIntervalChanged(val refreshInterval: Float) : PartialState()
 
-        object Success : PartialState()
+        data class RefreshStateChanged(val isRefreshOn: Boolean) : PartialState()
 
         data class Error(val throwable: Throwable) : PartialState()
     }

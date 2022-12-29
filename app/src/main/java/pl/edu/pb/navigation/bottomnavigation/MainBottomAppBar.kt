@@ -6,7 +6,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -79,7 +78,6 @@ private val bottomNavigationIcons = NavigationDestination.bottomNavigationEntrie
     listOf(
         Icons.Default.Home,
         Icons.Default.Search,
-        Icons.Default.Favorite,
         Icons.Default.Settings,
     )
 ).toMap()

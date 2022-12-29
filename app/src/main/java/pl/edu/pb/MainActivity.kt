@@ -21,9 +21,9 @@ import pl.edu.pb.common.extensions.collectWithLifecycle
 import pl.edu.pb.common.navigation.NavigationDestination
 import pl.edu.pb.common.navigation.NavigationFactory
 import pl.edu.pb.common.navigation.NavigationManager
-import pl.edu.pb.navigation.bottomnavigation.MainBottomAppBar
 import pl.edu.pb.common.ui.MainTheme
 import pl.edu.pb.navigation.NavigationHost
+import pl.edu.pb.navigation.bottomnavigation.MainBottomAppBar
 import javax.inject.Inject
 
 @AndroidEntryPoint

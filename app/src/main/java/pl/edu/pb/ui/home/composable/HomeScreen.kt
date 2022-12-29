@@ -11,7 +11,6 @@ import pl.edu.pb.common.extensions.collectWithLifecycle
 import pl.edu.pb.common.extensions.rememberIntent
 import pl.edu.pb.common.extensions.rememberIntentWithParam
 import pl.edu.pb.ui.home.HomeEvent
-import pl.edu.pb.ui.home.HomeIntent
 import pl.edu.pb.ui.home.HomeIntent.*
 import pl.edu.pb.ui.home.HomeUiState
 import pl.edu.pb.ui.home.HomeViewModel

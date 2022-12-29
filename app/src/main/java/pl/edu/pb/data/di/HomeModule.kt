@@ -18,8 +18,8 @@ object HomeModule {
     @Provides
     fun provideGetClientsUseCase(
         homeRepository: HomeRepository,
-    ): GetClientsUseCase = GetClientsUseCase {
-        getClients(it, homeRepository)
+    ): GetClientsUseCase = GetClientsUseCase { page, size ->
+        getClients(page, size, homeRepository)
     }
 
     @Module

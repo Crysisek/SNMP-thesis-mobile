@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import pl.edu.pb.R
+import pl.edu.pb.common.ui.Dimens
 
 @Composable
 fun <T> GenericPagedInfiniteList(
@@ -57,8 +58,8 @@ fun <T> GenericPagedInfiniteList(
     ) {
         LazyColumn(
             state = listState,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            contentPadding = PaddingValues(12.dp),
+            verticalArrangement = Arrangement.spacedBy(Dimens.betweenListItems),
+            contentPadding = PaddingValues(Dimens.contentPadding),
             modifier = Modifier.fillMaxSize(),
         ) {
             items(items) { item ->

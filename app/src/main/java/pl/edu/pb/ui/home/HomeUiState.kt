@@ -22,6 +22,8 @@ data class HomeUiState(
 
         data class FetchedClients(val clients: List<ClientDisplayable>, val isAllClientsFetched: Boolean) : PartialState()
 
+        data class RefreshedClients(val clients: List<ClientDisplayable>, val isAllClientsFetched: Boolean) : PartialState()
+
         data class Error(val throwable: Throwable) : PartialState()
     }
 }

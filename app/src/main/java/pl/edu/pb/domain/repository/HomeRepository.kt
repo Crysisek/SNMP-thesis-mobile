@@ -5,5 +5,5 @@ import pl.edu.pb.domain.model.Client
 import pl.edu.pb.domain.model.ClientListPageInfo
 
 interface HomeRepository {
-    fun getClients(page: Int): Flow<ClientListPageInfo>
+    fun getClients(page: Int, size: Int): Flow<ClientListPageInfo>
 }

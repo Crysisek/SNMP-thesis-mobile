@@ -16,7 +16,10 @@ interface ServerApi {
     suspend fun loginToHomeScreen()
 
     @GET("/api/clients")
-    suspend fun getClients(@Query("pageNo") page: Int): ClientPagedResponse
+    suspend fun getClients(@Query("pageNo") page: Int, @Query("pageSize") size: Int): ClientPagedResponse
+
+    @GET("/api/clients")
+    suspend fun getAllClients(@Query("pageSize") size: Int = 9999): ClientPagedResponse
 
     @GET("/api/statuses/{client_id}")
     suspend fun getStatuses(

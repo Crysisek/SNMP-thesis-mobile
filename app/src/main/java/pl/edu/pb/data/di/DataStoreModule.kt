@@ -1,20 +1,13 @@
 package pl.edu.pb.data.di
 
-import android.content.Context
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import pl.edu.pb.data.remote.repository.DataStoreRepositoryImpl
-import pl.edu.pb.data.remote.repository.LoginRepositoryImpl
 import pl.edu.pb.domain.repository.DataStoreRepository
-import pl.edu.pb.domain.repository.LoginRepository
-import pl.edu.pb.domain.usecase.GetCredentialsUseCase
-import pl.edu.pb.domain.usecase.SaveCredentialsUseCase
-import pl.edu.pb.domain.usecase.getCredentials
-import pl.edu.pb.domain.usecase.saveCredentials
+import pl.edu.pb.domain.usecase.*
 import javax.inject.Singleton
 
 @Module
@@ -33,6 +26,48 @@ object DataStoreModule {
         dataStoreRepository: DataStoreRepository,
     ): GetCredentialsUseCase = GetCredentialsUseCase {
         getCredentials(it, dataStoreRepository)
+    }
+
+    @Provides
+    fun provideSaveRefreshIntervalsUseCase(
+        dataStoreRepository: DataStoreRepository,
+    ): SaveRefreshIntervalUseCase = SaveRefreshIntervalUseCase { key, value ->
+        saveRefreshInterval(key, value, dataStoreRepository)
+    }
+
+    @Provides
+    fun provideGetRefreshIntervalUseCase(
+        dataStoreRepository: DataStoreRepository,
+    ): GetRefreshIntervalUseCase = GetRefreshIntervalUseCase {
+        getRefreshInterval(it, dataStoreRepository)
+    }
+
+    @Provides
+    fun provideGetRefreshStateUseCase(
+        dataStoreRepository: DataStoreRepository,
+    ): GetRefreshStateUseCase = GetRefreshStateUseCase {
+        getRefreshState(it, dataStoreRepository)
+    }
+
+    @Provides
+    fun provideSaveRefreshStateUseCase(
+        dataStoreRepository: DataStoreRepository,
+    ): SaveRefreshStateUseCase = SaveRefreshStateUseCase { key, value ->
+        saveRefreshState(key, value, dataStoreRepository)
+    }
+
+    @Provides
+    fun provideGetCustomUsernameUseCase(
+        dataStoreRepository: DataStoreRepository,
+    ): GetCustomUsernameUseCase = GetCustomUsernameUseCase {
+        getCustomUsername(it, dataStoreRepository)
+    }
+
+    @Provides
+    fun provideSaveCustomUsernameUseCase(
+        dataStoreRepository: DataStoreRepository,
+    ): SaveCustomUsernameUseCase = SaveCustomUsernameUseCase { key, value ->
+        saveCustomUsername(key, value, dataStoreRepository)
     }
 
     @Module

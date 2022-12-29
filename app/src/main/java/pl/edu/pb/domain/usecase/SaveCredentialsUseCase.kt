@@ -14,4 +14,3 @@ suspend fun saveCredentials(
         dataStoreRepository.putString(pair.first, pair.second)
     }
 }
-

@@ -8,20 +8,25 @@ import pl.edu.pb.common.di.DispatcherIO
 import pl.edu.pb.data.remote.api.ServerApi
 import pl.edu.pb.data.remote.mapper.toDomainModel
 import pl.edu.pb.domain.model.Client
-import pl.edu.pb.domain.model.ClientListPageInfo
-import pl.edu.pb.domain.repository.HomeRepository
+import pl.edu.pb.domain.repository.SearchRepository
 import javax.inject.Inject
 
-class HomeRepositoryImpl @Inject constructor(
+class SearchRepositoryImpl @Inject constructor(
     private val serverApi: ServerApi,
     @DispatcherIO private val dispatcherIO: CoroutineDispatcher,
-) : HomeRepository {
+) : SearchRepository {
 
-    override fun getClients(page: Int, size: Int): Flow<ClientListPageInfo> = flow {
-        val clientListPaged = serverApi
-            .getClients(page, size)
+    override fun searchClients(searchUsername: String): Flow<List<Client>> = flow {
+        val clients = serverApi
+            .getAllClients()
             .toDomainModel()
+            .clients
+            .filter {
+                it.username.contains(
+                    searchUsername, true
+                )
+            }
 
-        emit(clientListPaged)
+        emit(clients)
     }.flowOn(dispatcherIO)
 }

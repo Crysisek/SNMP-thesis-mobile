@@ -11,7 +11,6 @@ sealed class NavigationDestination(
     object Login : NavigationDestination("login")
     object Home : NavigationDestination("home")
     object Search : NavigationDestination("search")
-    object Favorites : NavigationDestination("favorites")
     object Settings : NavigationDestination("settings")
     object ClientDetails : NavigationDestination(
         route = "client_details/{$CLIENT_ID_PARAM}",
@@ -26,10 +25,8 @@ sealed class NavigationDestination(
 
     companion object {
         val bottomNavigationEntries = listOf(
-            // TODO improve on this
             Home.route,
             Search.route,
-            Favorites.route,
             Settings.route,
         )
         private const val CLIENT_ID_PARAM = "client_id"

@@ -118,7 +118,7 @@ class ClientDetailsViewModel @Inject constructor(
                             FetchedStatuses(
                                 statuses = statuses,
                                 sortByOptions = setOf(BottomSheetUiState.defaultSortBy) + statuses[0].nameStatusPair.keys,
-                                isAllStatusesFetched = page == statusListPaged.totalPages - 1
+                                isAllStatusesFetched = page == statusListPaged.totalPages - 1,
                             ),
                         )
                     }

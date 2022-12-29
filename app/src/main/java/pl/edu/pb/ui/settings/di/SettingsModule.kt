@@ -8,8 +8,6 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import pl.edu.pb.common.navigation.NavigationFactory
-import pl.edu.pb.ui.favourites.FavouritesNavigationFactory
-import pl.edu.pb.ui.favourites.FavouritesUiState
 import pl.edu.pb.ui.settings.SettingsNavigationFactory
 import pl.edu.pb.ui.settings.SettingsUiState
 import javax.inject.Singleton
